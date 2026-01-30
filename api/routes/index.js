@@ -1,9 +1,20 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Tayfun' });
-});
+
+const fs = require('fs');
+
+let routers = fs.readdirSync(__dirname);
+
+for (let route of routers) {
+    if (route.includes(".js") && route !== "index.js") {
+        router.use("/" + route.replace(".js", ""), require('./'+route));
+
+    }
+}
+
+
+
 
 module.exports = router;
+ 
